@@ -2,6 +2,7 @@ import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
 import { initDb, runDbSmokeTest } from './db'
+import { registerIpcHandlers } from './ipcHandlers'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -36,6 +37,8 @@ function createWindow(): void {
 app.whenReady().then(() => {
   // Initialise the database (creates file + tables if they don't exist)
   initDb()
+  // Register IPC endpoints for renderer <-> main DB communication
+  registerIpcHandlers()
   // Phase 2 smoke test: insert a task, read it back, clean up
   runDbSmokeTest()
 

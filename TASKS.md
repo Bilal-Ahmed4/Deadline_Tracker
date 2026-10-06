@@ -15,9 +15,9 @@ moving to the next — don't let unfinished pieces pile up.
 - [x] Quick manual test: insert + read a row, log to console
 
 ## Phase 3 — IPC bridge
-- [ ] Expose DB functions in `src/main/ipcHandlers.ts` via `ipcMain.handle`
-- [ ] Expose a safe API in `src/preload/preload.ts` via `contextBridge`
-- [ ] Confirm renderer can call `window.api.getAllTasks()` and get data back
+- [x] Expose DB functions in `src/main/ipcHandlers.ts` via `ipcMain.handle`
+- [x] Expose a safe API in `src/preload/preload.ts` via `contextBridge`
+- [x] Confirm renderer can call `window.api.getAllTasks()` and get data back
 
 ## Phase 4 — Core UI
 - [ ] `TaskForm.tsx` — add new task (title, course, type, due date, priority, notes)

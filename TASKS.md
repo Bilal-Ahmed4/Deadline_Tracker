@@ -4,15 +4,15 @@ Work through these in order. Each phase should run/build successfully before
 moving to the next — don't let unfinished pieces pile up.
 
 ## Phase 1 — Scaffold
-- [ ] Init project with `electron-vite` (React + TypeScript template)
-- [ ] Confirm `npm run dev` opens a blank Electron window
-- [ ] Set up folder structure from `ARCHITECTURE.md` (§5)
+- [x] Init project with `electron-vite` (React + TypeScript template)
+- [x] Confirm `npm run dev` opens a blank Electron window
+- [x] Set up folder structure from `ARCHITECTURE.md` (§5)
 
 ## Phase 2 — Database layer
-- [ ] Add `better-sqlite3`
-- [ ] Create `src/main/db.ts`: init DB file, create `tasks` table (schema in `ARCHITECTURE.md` §4)
-- [ ] Write functions: `createTask`, `getAllTasks`, `updateTask`, `deleteTask`, `markDone`
-- [ ] Quick manual test: insert + read a row, log to console
+- [x] Add `better-sqlite3`
+- [x] Create `src/main/db.ts`: init DB file, create `tasks` table (schema in `ARCHITECTURE.md` §4)
+- [x] Write functions: `createTask`, `getAllTasks`, `updateTask`, `deleteTask`, `markDone`
+- [x] Quick manual test: insert + read a row, log to console
 
 ## Phase 3 — IPC bridge
 - [ ] Expose DB functions in `src/main/ipcHandlers.ts` via `ipcMain.handle`

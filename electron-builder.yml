@@ -1,0 +1,15 @@
+appId: com.university.tracker
+productName: University Task & Deadline Tracker
+directories:
+  buildResources: assets
+  output: dist
+files:
+  - out/**/*
+  - '!out/**/*.map'
+linux:
+  target: AppImage
+  category: Utility
+win:
+  target: nsis
+mac:
+  target: dmg

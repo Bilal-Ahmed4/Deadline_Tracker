@@ -26,8 +26,8 @@ moving to the next — don't let unfinished pieces pile up.
 - [x] `FilterBar.tsx` — filter by course / type / status
 
 ## Phase 5 — Dashboard
-- [ ] `Dashboard.tsx` — upcoming (next 7 days) and overdue sections
-- [ ] Visual priority indicator (color-coded)
+- [x] `Dashboard.tsx` — upcoming (next 7 days) and overdue sections
+- [x] Visual priority indicator (color-coded)
 
 ## Phase 6 — Reminders
 - [ ] `src/main/scheduler.ts` — 60s interval loop checking due reminders

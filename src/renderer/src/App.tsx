@@ -1,10 +1,12 @@
 /**
  * src/renderer/src/App.tsx
- * Main application dashboard rendering TaskForm, FilterBar, and TaskList.
+ * Main application dashboard rendering Dashboard (Overdue & Upcoming),
+ * TaskForm, FilterBar, and TaskList.
  */
 
 import React, { useState, useMemo } from 'react'
 import { useTasks } from '../hooks/useTasks'
+import { Dashboard } from '../components/Dashboard'
 import { TaskForm } from '../components/TaskForm'
 import { FilterBar } from '../components/FilterBar'
 import { TaskList } from '../components/TaskList'
@@ -29,7 +31,7 @@ function App(): React.ReactElement {
     return Array.from(courseSet).sort()
   }, [tasks])
 
-  // Filter tasks based on current criteria
+  // Filter tasks based on current criteria for the full task list
   const filteredTasks = useMemo(() => {
     return tasks.filter((t) => {
       if (filters.course !== 'all' && t.course !== filters.course) return false
@@ -86,15 +88,31 @@ function App(): React.ReactElement {
         </div>
       )}
 
+      {/* 
+        Layout Decision:
+        Dashboard placed first at top so students immediately see urgent deadlines
+        (Overdue & Upcoming Next 7 Days) upon opening the app.
+      */}
+      <Dashboard
+        tasks={tasks}
+        onToggleStatus={handleToggleStatus}
+        onDeleteTask={handleDeleteTask}
+      />
+
       {/* Task Creation Form */}
       <TaskForm onAddTask={handleAddTask} />
 
-      {/* Filtering and Searching */}
-      <FilterBar
-        filters={filters}
-        onFilterChange={setFilters}
-        availableCourses={availableCourses}
-      />
+      {/* All Tasks Section with Filtering & Searching */}
+      <div style={{ marginTop: '2rem', marginBottom: '1rem' }}>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.75rem' }}>
+          📑 All Tasks
+        </h2>
+        <FilterBar
+          filters={filters}
+          onFilterChange={setFilters}
+          availableCourses={availableCourses}
+        />
+      </div>
 
       {/* Task List */}
       {loading ? (

@@ -20,10 +20,10 @@ moving to the next — don't let unfinished pieces pile up.
 - [x] Confirm renderer can call `window.api.getAllTasks()` and get data back
 
 ## Phase 4 — Core UI
-- [ ] `TaskForm.tsx` — add new task (title, course, type, due date, priority, notes)
-- [ ] `TaskList.tsx` — list all tasks, sorted by due date
-- [ ] Mark done / delete actions on each task row
-- [ ] `FilterBar.tsx` — filter by course / type / status
+- [x] `TaskForm.tsx` — add new task (title, course, type, due date, priority, notes)
+- [x] `TaskList.tsx` — list all tasks, sorted by due date
+- [x] Mark done / delete actions on each task row
+- [x] `FilterBar.tsx` — filter by course / type / status
 
 ## Phase 5 — Dashboard
 - [ ] `Dashboard.tsx` — upcoming (next 7 days) and overdue sections

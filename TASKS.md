@@ -30,11 +30,11 @@ moving to the next — don't let unfinished pieces pile up.
 - [x] Visual priority indicator (color-coded)
 
 ## Phase 6 — Reminders
-- [ ] `src/main/scheduler.ts` — 60s interval loop checking due reminders
-- [ ] Trigger `new Notification(...)` when a task's reminder time is hit
-- [ ] Set `reminder_sent = 1` after firing
-- [ ] Run the same check once on app startup (catch missed reminders)
-- [ ] Let user set reminder offset per task (default 24h before)
+- [x] `src/main/scheduler.ts` — 60s interval loop checking due reminders
+- [x] Trigger `new Notification(...)` when a task's reminder time is hit
+- [x] Set `reminder_sent = 1` after firing
+- [x] Run the same check once on app startup (catch missed reminders)
+- [x] Let user set reminder offset per task (default 24h before)
 
 ## Phase 7 — Polish
 - [ ] System tray icon + "minimize to tray"

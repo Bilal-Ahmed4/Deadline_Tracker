@@ -1,8 +1,9 @@
 import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
-import { initDb, runDbSmokeTest } from './db'
+import { initDb } from './db'
 import { registerIpcHandlers } from './ipcHandlers'
+import { startReminderScheduler } from './scheduler'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -39,8 +40,8 @@ app.whenReady().then(() => {
   initDb()
   // Register IPC endpoints for renderer <-> main DB communication
   registerIpcHandlers()
-  // Phase 2 smoke test: insert a task, read it back, clean up
-  runDbSmokeTest()
+  // Start background reminder scheduler (60s loop + immediate startup catch-up)
+  startReminderScheduler()
 
   createWindow()
 

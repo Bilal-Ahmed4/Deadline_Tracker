@@ -185,6 +185,31 @@ export function markDone(id: number): Task {
   return updateTask(id, { status: 'done' })
 }
 
+/**
+ * Fetch all pending tasks whose reminder is due but not yet sent:
+ * (due_date - reminder_offset_minutes) <= now
+ */
+export function getDueReminders(nowLocalISO: string): Task[] {
+  return getDb()
+    .prepare(`
+      SELECT * FROM tasks
+      WHERE status = 'pending'
+        AND reminder_sent = 0
+        AND datetime(replace(due_date, 'T', ' '), '-' || reminder_offset_minutes || ' minutes') <= datetime(replace(@now, 'T', ' '))
+      ORDER BY due_date ASC
+    `)
+    .all({ now: nowLocalISO }) as Task[]
+}
+
+/**
+ * Mark a task's reminder as sent to avoid repeated alerts.
+ */
+export function markReminderSent(id: number): void {
+  getDb()
+    .prepare('UPDATE tasks SET reminder_sent = 1 WHERE id = ?')
+    .run(id)
+}
+
 // ---------------------------------------------------------------------------
 // Phase 2 smoke test — runs once at startup to prove DB works end-to-end.
 // Remove or gate behind an env flag before shipping.

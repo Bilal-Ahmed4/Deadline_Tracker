@@ -168,17 +168,19 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="reminderOffset">Reminder Alert</label>
+            <label htmlFor="reminderOffset">Remind Me</label>
             <select
               id="reminderOffset"
               className="form-control"
               value={reminderOffset}
               onChange={(e) => setReminderOffset(Number(e.target.value))}
             >
+              <option value={1}>1 minute before (Quick test)</option>
+              <option value={15}>15 minutes before</option>
               <option value={60}>1 hour before</option>
               <option value={120}>2 hours before</option>
               <option value={720}>12 hours before</option>
-              <option value={1440}>24 hours (1 day) before [Default]</option>
+              <option value={1440}>1 day before (Default)</option>
               <option value={2880}>2 days before</option>
               <option value={10080}>1 week before</option>
             </select>

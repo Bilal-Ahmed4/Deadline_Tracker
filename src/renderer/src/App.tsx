@@ -2,9 +2,10 @@
  * src/renderer/src/App.tsx
  * Main application dashboard rendering Dashboard (Overdue & Upcoming),
  * TaskForm, FilterBar, and TaskList.
+ * Includes Phase 7 Polish: Dark mode toggle & Launch-on-startup setting.
  */
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useTasks } from '../hooks/useTasks'
 import { Dashboard } from '../components/Dashboard'
 import { TaskForm } from '../components/TaskForm'
@@ -15,12 +16,57 @@ import type { TaskFilters, NewTask, Task } from '../components/types'
 function App(): React.ReactElement {
   const { tasks, loading, error, addTask, removeTask, toggleTaskStatus } = useTasks()
 
+  // --- Phase 7 Polish: Dark Mode ---
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    return localStorage.getItem('theme') === 'dark'
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light')
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light')
+  }, [isDarkMode])
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => !prev)
+  }
+
+  // --- Phase 7 Polish: Launch on Startup Setting ---
+  const [launchOnStartup, setLaunchOnStartup] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (window.api && typeof window.api.getStartupSetting === 'function') {
+      window.api.getStartupSetting().then(setLaunchOnStartup).catch(console.error)
+    }
+  }, [])
+
+  const handleToggleStartup = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked
+    setLaunchOnStartup(checked)
+    if (window.api && typeof window.api.setStartupSetting === 'function') {
+      try {
+        await window.api.setStartupSetting(checked)
+      } catch (err) {
+        console.error('Failed to set startup preference:', err)
+      }
+    }
+  }
+
+  // --- Filters ---
   const [filters, setFilters] = useState<TaskFilters>({
     course: 'all',
     type: 'all',
     status: 'all',
     searchQuery: ''
   })
+
+  const resetFilters = () => {
+    setFilters({
+      course: 'all',
+      type: 'all',
+      status: 'all',
+      searchQuery: ''
+    })
+  }
 
   // Extract unique courses from existing tasks for the course filter dropdown
   const availableCourses = useMemo(() => {
@@ -65,11 +111,36 @@ function App(): React.ReactElement {
   return (
     <div className="app-container">
       <header className="app-header">
-        <div>
+        <div className="app-header-title">
           <h1>📚 University Task &amp; Deadline Tracker</h1>
         </div>
-        <div className="task-stats">
-          <span>{pendingCount}</span> pending &bull; <span>{completedCount}</span> completed
+
+        <div className="header-controls">
+          <div className="task-stats">
+            <span>{pendingCount}</span> pending &bull; <span>{completedCount}</span> completed
+          </div>
+
+          <div className="settings-bar">
+            {/* Startup setting toggle */}
+            <label className="toggle-label" title="Automatically launch on OS startup">
+              <input
+                type="checkbox"
+                checked={launchOnStartup}
+                onChange={handleToggleStartup}
+              />
+              Launch on startup
+            </label>
+
+            {/* Dark mode button */}
+            <button
+              type="button"
+              className="btn btn-icon"
+              onClick={toggleDarkMode}
+              title={isDarkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+            >
+              {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -89,7 +160,6 @@ function App(): React.ReactElement {
       )}
 
       {/* 
-        Layout Decision:
         Dashboard placed first at top so students immediately see urgent deadlines
         (Overdue & Upcoming Next 7 Days) upon opening the app.
       */}
@@ -122,6 +192,8 @@ function App(): React.ReactElement {
       ) : (
         <TaskList
           tasks={filteredTasks}
+          totalCount={tasks.length}
+          onResetFilters={resetFilters}
           onToggleStatus={handleToggleStatus}
           onDeleteTask={handleDeleteTask}
         />

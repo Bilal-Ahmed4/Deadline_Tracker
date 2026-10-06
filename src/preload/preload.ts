@@ -15,6 +15,8 @@ export interface TaskApi {
   updateTask: (id: number, data: UpdateTask) => Promise<Task>
   deleteTask: (id: number) => Promise<void>
   markDone: (id: number) => Promise<Task>
+  getStartupSetting: () => Promise<boolean>
+  setStartupSetting: (enabled: boolean) => Promise<boolean>
 }
 
 const api: TaskApi = {
@@ -22,7 +24,9 @@ const api: TaskApi = {
   getAllTasks: (): Promise<Task[]> => ipcRenderer.invoke('tasks:getAll'),
   updateTask: (id: number, data: UpdateTask): Promise<Task> => ipcRenderer.invoke('tasks:update', id, data),
   deleteTask: (id: number): Promise<void> => ipcRenderer.invoke('tasks:delete', id),
-  markDone: (id: number): Promise<Task> => ipcRenderer.invoke('tasks:markDone', id)
+  markDone: (id: number): Promise<Task> => ipcRenderer.invoke('tasks:markDone', id),
+  getStartupSetting: (): Promise<boolean> => ipcRenderer.invoke('settings:getStartup'),
+  setStartupSetting: (enabled: boolean): Promise<boolean> => ipcRenderer.invoke('settings:setStartup', enabled)
 }
 
 // Expose the safe API object to the renderer process

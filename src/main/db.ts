@@ -98,9 +98,36 @@ export function initDb(): void {
       reminder_sent           BOOLEAN DEFAULT 0,
       created_at              TEXT DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS settings (
+      key                     TEXT PRIMARY KEY,
+      value                   TEXT NOT NULL
+    );
   `)
 
   console.log(`[db] Opened database at: ${dbPath}`)
+}
+
+// ---------------------------------------------------------------------------
+// Settings helpers (persisted in SQLite)
+// ---------------------------------------------------------------------------
+
+export function getSetting(key: string, defaultValue = ''): string {
+  const row = getDb()
+    .prepare('SELECT value FROM settings WHERE key = ?')
+    .get(key) as { value: string } | undefined
+
+  return row ? row.value : defaultValue
+}
+
+export function setSetting(key: string, value: string): void {
+  getDb()
+    .prepare(`
+      INSERT INTO settings (key, value)
+      VALUES (?, ?)
+      ON CONFLICT(key) DO UPDATE SET value = excluded.value
+    `)
+    .run(key, value)
 }
 
 // ---------------------------------------------------------------------------

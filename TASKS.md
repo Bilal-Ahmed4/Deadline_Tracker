@@ -37,10 +37,10 @@ moving to the next — don't let unfinished pieces pile up.
 - [x] Let user set reminder offset per task (default 24h before)
 
 ## Phase 7 — Polish
-- [ ] System tray icon + "minimize to tray"
-- [ ] "Launch on startup" setting
-- [ ] Dark mode toggle
-- [ ] Empty states (no tasks yet, all caught up 🎉)
+- [x] System tray icon + "minimize to tray"
+- [x] "Launch on startup" setting
+- [x] Dark mode toggle
+- [x] Empty states (no tasks yet, all caught up 🎉)
 
 ## Phase 8 — Package & ship
 - [ ] Configure `electron-builder.yml`
